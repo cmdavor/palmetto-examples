@@ -30,6 +30,7 @@ If you have not created a `software` directory, you can do it under your home di
 ```
 $ cd ~
 $ mkdir software_slurm
+$ cd software_slurm
 ```
 
 - Get Gromacs Source Code
@@ -81,9 +82,9 @@ In this example, given the previous `salloc` command, we most likely will get a 
 - Compiling Gromacs
 
 ```
-$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_512 -DCMAKE_INSTALL_PREFIX=/home/$USER/software/gromacs-2024.2/build_slurm/gmx
+$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_512 -DCMAKE_INSTALL_PREFIX=/home/$USER/software_slurm/gromacs-2024.2/build_slurm/gmx
 $ make -j 12
-$ make install -j 12
+$ make install
 ```
 
 ## Running in batch mode
