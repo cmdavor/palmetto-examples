@@ -20,7 +20,7 @@ If you are curious about the installation, you can read the next setion.
 - Get a node (choose the node type you wish to run Gromacs on)
 
 ```
-$ salloc --nodes=1 --ntasks-per-node=12 --gpus-per-node=1 --mem=20G --time=01:00:00
+$ salloc --nodes=1 --ntasks-per-node=12 --gpus-per-node=1 --mem=20G --time=01:00:00 --constraint=cpu_gen_sandybridge # Added the constraint for sandybridge for uniformity
 ```
 
 - Creating a local software directory
@@ -29,7 +29,7 @@ If you have not created a `software` directory, you can do it under your home di
 
 ```
 $ cd ~
-$ mkdir software_slurm
+$ mkdir -p software_slurm # Added -p
 $ cd software_slurm # Added cd into software_slurm
 ```
 
@@ -77,12 +77,12 @@ E5-2680v4: broadwell (AVX2_256)
 6248: cascadelake (AVX_512)
 8358: icelake (AVX_512)
 
-In this example, given the previous `salloc` command, we most likely will get a node with `AVX_512`, which will be the input value for the below `-DGMX_SIMD`.
+In this example, given the previous `salloc` command, we most likely will get a node with `AVX_256`, which will be the input value for the below `-DGMX_SIMD`. # Changed from 512 to 256
 
 - Compiling Gromacs
 
 ```
-$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_512 -DCMAKE_INSTALL_PREFIX=/home/$USER/software_slurm/gromacs-2024.2/install # changed /home/$USER/software/gromacs-2024.2/build_slurm/gmx to /home/$USER/software/gromacs-2024.2/install
+$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_256 -DCMAKE_INSTALL_PREFIX=/home/$USER/software_slurm/gromacs-2024.2/install # changed /home/$USER/software/gromacs-2024.2/build_slurm/gmx to /home/$USER/software/gromacs-2024.2/install # Also changed AVX_512 to AVX_256
 $ make -j 8
 $ make install
 ```
