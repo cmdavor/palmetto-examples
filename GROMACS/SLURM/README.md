@@ -30,7 +30,7 @@ If you have not created a `software` directory, you can do it under your home di
 ```
 $ cd ~
 $ mkdir software_slurm
-$ cd software_slurm
+$ cd software_slurm # Added cd into software_slurm
 ```
 
 - Get Gromacs Source Code
@@ -38,7 +38,7 @@ $ cd software_slurm
 
 ```
 $ wget https://ftp.gromacs.org/gromacs/gromacs-2024.2.tar.gz
-$ tar -zxvf gromacs-2024.2.tar.gz
+$ tar -zxvf gromacs-2024.2.tar.gz # Was originally extracting link, changed to extract gromacs file
 $ cd gromacs-2024.2
 ```
 
@@ -58,7 +58,7 @@ module load anaconda3 gcc/9.5.0 intel-oneapi-mkl cuda/11.8.0 openmpi # gcc/9.5.0
 
 - Identify architecture type and SIMD:
 
-This is because Gromacs depends greatly on the architechture of the hardware as mentioend at the beginning.
+This is because Gromacs depends greatly on the architecture of the hardware as mentioned at the beginning.
 
 ```
 $ lscpu | grep "Model name"
@@ -82,10 +82,16 @@ In this example, given the previous `salloc` command, we most likely will get a 
 - Compiling Gromacs
 
 ```
-$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_512 -DCMAKE_INSTALL_PREFIX=/home/$USER/software_slurm/gromacs-2024.2/build_slurm/gmx
-$ make -j 12
+$ cmake .. -DGMX_MPI=on -DGMX_GPU=CUDA -DGMX_FFT_LIBRARY=mkl -DGMX_SIMD=AVX_512 -DCMAKE_INSTALL_PREFIX=/home/$USER/software_slurm/gromacs-2024.2/install # changed /home/$USER/software/gromacs-2024.2/build_slurm/gmx to /home/$USER/software/gromacs-2024.2/install
+$ make -j 8
 $ make install
 ```
+
+- Source Gromacs Environment # ChatGPT told me to include this part "To use it in future sessions"
+
+...
+$ source ~/software_slurm/gromacs-2024.2/install/bin/GMXRC.bash
+...
 
 ## Running in batch mode
 
@@ -107,7 +113,7 @@ module purge
 module load cuda/11.8.0 openmpi intel-oneapi-mkl
 
 #Source the Gromacs environment variable
-source /home/$USER/software_slurm/gromacs-2024.2/build_slurm/gmx/bin/GMXRC
+source /home/$USER/software_slurm/gromacs-2024.2/install/bin/GMXRC.bash # Changed /gromacs-2024.2/build_slurm/gmx/bin/GMXRC to /gromacs-2024.2/install/bin/GMXRC.bash
 
 # Gromacs recommends having between 2 and 6 threads:
 export OMP_NUM_THREADS=6
