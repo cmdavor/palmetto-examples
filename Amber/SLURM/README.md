@@ -53,7 +53,7 @@ srun pmemd.MPI -O -i 03_Prod.in -o 03_Prod.out -p parm7 -c 02_Heat.ncrst -r 03_P
 To submit this pbs script, use the following command:
 
 ```
-sbatch ambser_mpi.slurm
+sbatch amber_mpi.slurm # Fixed typo
 ```
 
 #### amber_gpu.slurm (gpu-slurm)
